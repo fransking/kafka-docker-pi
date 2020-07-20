@@ -42,7 +42,12 @@ ENV KAFKA_VERSION=$kafka_version \
 #Dependencies
 RUN set -ex; \
     apt-get update; \
-    apt-get -y install jq docker; \
+    apt-get -y install jq net-tools gnupg; \
+    curl -fsSL https://download.docker.com/linux/raspbian/gpg | apt-key add -qq - >/dev/null; \
+    echo "deb [arch=armhf] https://download.docker.com/linux/raspbian buster stable" > /etc/apt/sources.list.d/docker.list; \
+    apt-get update; \
+    apt-get -y install docker-ce-cli; \
+    apt-get -y autoremove; \
     rm -rf /var/lib/apt/lists/*
 
 #Install
